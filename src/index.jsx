@@ -3,15 +3,41 @@ console.log('I am alive!');
 import React from 'react';
 import { render } from 'react-dom';
 import t from 'tcomb-form';
+import transform from 'tcomb-json-schema';
+
 
 const Form = t.form.Form;
 
 // define your domain model with tcomb
-// https://github.com/gcanti/tcomb
+/*
 const Person = t.struct({
   name: t.String,
   surname: t.String
 });
+*/
+
+/*
+ * or with JSON schema
+ */
+const Person = transform({
+	"title": "Person",
+	"type": "object",
+	"properties": {
+		"firstName": {
+			"type": "string"
+		},
+		"lastName": {
+			"type": "string"
+		},
+		"age": {
+			"description": "Age in years",
+			"type": "integer",
+			"minimum": 0
+		}
+	},
+	"required": ["firstName", "lastName"]
+});
+
 
 const App = React.createClass({
 
