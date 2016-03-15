@@ -29,13 +29,16 @@ const Person = transform({
 		"lastName": {
 			"type": "string"
 		},
+		"sex": {
+			"type": "string"
+		},
 		"age": {
 			"description": "Age in years",
 			"type": "integer",
 			"minimum": 0
 		}
 	},
-	"required": ["firstName", "lastName"]
+	"required": ["firstName", "lastName", "sex"]
 });
 
 
