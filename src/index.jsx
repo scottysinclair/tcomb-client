@@ -8,6 +8,7 @@ import transform from 'tcomb-json-schema';
 
 const Form = t.form.Form;
 
+
 // define your domain model with tcomb
 /*
 const Person = t.struct({
@@ -53,16 +54,20 @@ const App = React.createClass({
       console.log(value);
     }
   },
+  
+  onChange(value, path) {
+    // validate a field on every change
+    this.refs.form.getComponent(path).validate();
+  },
 
   render() {
     return (
-      <div>
-        <Form
-          ref="form"
-          type={Person}
-        />
-        <button onClick={this.save}>Save</button>
-      </div>
+    	<div>
+    	<Form ref="form" 
+    		  type={Person}
+    		  onChange={this.onChange} />
+    		<button onClick={this.save}>Save</button>
+    	</div>
     );
   }
 
