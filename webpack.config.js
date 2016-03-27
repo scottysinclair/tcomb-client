@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:8000',
     'webpack/hot/only-dev-server', 
     './src/index.jsx'
   ],
@@ -23,8 +23,14 @@ module.exports = {
   },
   devServer: {
     contentBase: './dist',
-    hot: true
-  },
+    hot: true,
+    proxy: {
+  	  '/barleyrs/*' : {
+  		  target: 'http://localhost:8080',
+  		  secure: false
+  	  }
+    }
+  },  
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ]
