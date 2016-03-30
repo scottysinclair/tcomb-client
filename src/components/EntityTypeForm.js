@@ -19,29 +19,16 @@ export default React.createClass({
   },
 
   componentDidMount: function() {
-	  const that = this;
-	  const props = this.props;
-	  if (props.entityTypeName != null) {
-		  fetch('/barleyrs/entitytypes/' + props.namespace + '/' + props.entityTypeName)
-		  .then(function(response) {
-		    return response.json()
-		  }).then(function(json) {
-		  	const formSchema = transform( json );
-		  	that.setState({ formSchema: formSchema })
-		  });
+	  if (this.props.formSchema != null) {
+	  	const transformed = transform( this.props.formSchema );
+	  	this.setState({ formSchema: transformed })
 	  }
   },
 
   componentWillReceiveProps: function(props) {
-	  const that = this;
-	  if (props.entityTypeName != null) {
-		  fetch('/barleyrs/entitytypes/' + props.namespace + '/' + props.entityTypeName)
-		  .then(function(response) {
-		    return response.json()
-		  }).then(function(json) {
-		  	const formSchema = transform( json );
-		  	that.setState({ formSchema: formSchema })
-		  });
+	  if (props.formSchema != null) {
+	  	const transformed = transform( props.formSchema );
+	  	this.setState({ formSchema: transformed })
 	  }
   },
 
@@ -51,18 +38,32 @@ export default React.createClass({
 
   save: function() {
 	console.log("save");  
+	const props = this.props;
+    let value = this.refs.form.getValue();
+    if (value != null) {
+		fetch('/barleyrs/entities/' + props.namespace + "/" + props.entityTypeName, {
+			method: 'post',
+			headers: {
+			    'Accept': 'application/json',
+			    'Content-Type': 'application/json'
+			  },
+			body: JSON.stringify(value)
+		   });
+    }
   },
 
   render: function() {
 	  return this.props.entityTypeName ?  
-      <div>
-        <h2>{this.props.entityTypeName} editor</h2>
-    	<Form ref="form" 
-  		  type={this.state.formSchema}
-  		  onChange={this.onChange} />
-  		<button onClick={this.save}>Save</button>
+	  <div className="panel panel-default">
+	  <div class="panel-heading">Editor</div>
+        <div class="panel-body">
+	    	<Form ref="form" 
+	  		  type={this.state.formSchema}
+	  		  onChange={this.onChange} />
+	  		<button onClick={this.save}>Save</button>
+	  	</div>
         
       </div>
-     : <div>no params</div>
+     : <div></div>
   }
 })

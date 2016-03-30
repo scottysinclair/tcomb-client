@@ -3,17 +3,17 @@ import React from 'react'
 import NavLink from './NavLink'
 
 export default React.createClass({
-  render() {
+		
+  render: function() {
     return (
       <div>
-        <h4>Entity Types</h4>
+        <h4>Models</h4>
         {/* add some links */}
-        <ul>
-          <li><NavLink to="/entitytypes/scott.picdb/Camera">Cameras</NavLink></li>
-          <li><NavLink to="/entitytypes/scott.picdb/Picture">Pictures</NavLink></li>
-          <li><NavLink to="/entitytypes/scott.picdb/PrimaryAlbumb">Albumbs</NavLink></li>
-          <li><NavLink to="/entitytypes/scott.picdb/Tag">Tags</NavLink></li>
-        </ul>
+        <div className="list-group">
+        {this.props.entityTypes.map(entry => 
+        		<NavLink key={'et-' + entry.fqn} className="list-group-item" to={'/entitytypes/'+ entry.namespace + '/' + entry.fqn}>{entry.simpleName}</NavLink>
+        )}
+        </div>
       </div>
     )
   }

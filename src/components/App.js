@@ -5,7 +5,7 @@ export default React.createClass({
   render() {
     return  (
     	      <div>
-    	        <h1>Barley Boy</h1>
+    	        <h1>Generic Application</h1>
 
     	        {/* render children  */}
     	        {this.props.children}
