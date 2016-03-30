@@ -10,11 +10,13 @@ export default React.createClass({
     return {
       entityTypes: [],
       formSchema : {
-		"title": "None",
-		"type": "object",
-		"properties": {
-	    }
-      }
+    	  "schema" : {
+			"title": "None",
+			"type": "object",
+			"properties": {}
+    	   },
+		   "options": {}
+    	  }
     };
   },	
 	
@@ -121,7 +123,7 @@ export default React.createClass({
             <EntityListing
             	namespace={namespace} 
             	entityTypeName={entityTypeName} 
-            	formSchema={this.state.formSchema}/>
+            	formSchema={this.state.formSchema.schema}/>
 
             <hr size="1"/>
 

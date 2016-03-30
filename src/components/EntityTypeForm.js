@@ -14,21 +14,28 @@ export default React.createClass({
     		"type": "object",
     		"properties": {
     		}
-    	})
+    	}),
+    	options: {}
     };
   },
 
   componentDidMount: function() {
 	  if (this.props.formSchema != null) {
-	  	const transformed = transform( this.props.formSchema );
-	  	this.setState({ formSchema: transformed })
+	  	const transformed = transform( this.props.formSchema.schema );
+	  	this.setState({ 
+	  		formSchema: transformed,
+	  		options: this.props.formSchema.options
+	  	})
 	  }
   },
 
   componentWillReceiveProps: function(props) {
 	  if (props.formSchema != null) {
-	  	const transformed = transform( props.formSchema );
-	  	this.setState({ formSchema: transformed })
+	  	const transformed = transform( props.formSchema.schema );
+	  	this.setState({ 
+	  		formSchema: transformed,
+	  		options: props.formSchema.options
+	  	})
 	  }
   },
 
@@ -59,6 +66,7 @@ export default React.createClass({
         <div className="panel-body">
 	    	<Form ref="form" 
 	  		  type={this.state.formSchema}
+	    	  options={this.state.options}
 	  		  onChange={this.onChange} />
 	  		<button onClick={this.save}>Save</button>
 	  	</div>
