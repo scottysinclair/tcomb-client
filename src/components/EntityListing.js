@@ -41,8 +41,8 @@ export default React.createClass({
 	let row = 0;
     return (
       <div className="panel panel-default">
-      		<div class="panel-heading">Data</div>
-      		<div class="panel-body">
+      		<div className="panel-heading">Data</div>
+      		<div className="panel-body">
 		      <table width="80%" className="table table-bordered table-striped table-hover">
 		        <thead>
 	  	          <tr>

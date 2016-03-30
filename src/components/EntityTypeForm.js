@@ -55,8 +55,8 @@ export default React.createClass({
   render: function() {
 	  return this.props.entityTypeName ?  
 	  <div className="panel panel-default">
-	  <div class="panel-heading">Editor</div>
-        <div class="panel-body">
+	  <div className="panel-heading">Editor</div>
+        <div className="panel-body">
 	    	<Form ref="form" 
 	  		  type={this.state.formSchema}
 	  		  onChange={this.onChange} />

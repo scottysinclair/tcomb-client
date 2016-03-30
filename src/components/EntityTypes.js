@@ -61,14 +61,17 @@ export default React.createClass({
   getJSONSchema: function(namespace, entityTypeName) {
 	  return fetch('/barleyrs/entitytypes/' + namespace + '/' + entityTypeName)
 	  .then(function(response) {
-	    return response.json()
+
+		  console.log("ET -> GJS");
+		  return response.json()
 	  });
   },
   
   componentWillReceiveProps: function(props) {
+	  console.log("ET -> componentWillReceiveProps");
 	  const that = this;
-	  if (props.entityTypeName != null) {
-		  getSchemaJson(props.namespace, props.entityTypeName)
+	  if (props.params != null && props.params.namespace != null && props.params.entityTypeName != null) {
+		  that.getJSONSchema(props.params.namespace, props.params.entityTypeName)
 		  .then(function(formSchema){
 	  			that.setState({
 	  				entityTypes: that.state.entityTypes,

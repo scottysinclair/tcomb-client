@@ -6,7 +6,7 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <h3>Welcome to Barley Boy!</h3>
+        <h3>You can create and configure entities to your heart's content</h3>
         <ul>
          <li><NavLink to="/entitytypes">EntityTypes</NavLink></li>
         </ul>
