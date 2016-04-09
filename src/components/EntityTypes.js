@@ -16,9 +16,18 @@ export default React.createClass({
 			"properties": {}
     	   },
 		   "options": {}
-    	  }
+    	  },
+      saveCount: 0
     };
-  },	
+  },
+  
+  incSaveCount: function() {
+	    this.setState({
+	    	entityTypes: this.state.entityTypes,
+	        formSchema : this.state.formSchema,
+	        saveCount: this.state.saveCount+1
+	      });
+  },
 	
   componentDidMount: function() {
 	  const that = this;
@@ -123,14 +132,17 @@ export default React.createClass({
             <EntityListing
             	namespace={namespace} 
             	entityTypeName={entityTypeName} 
-            	formSchema={this.state.formSchema.schema}/>
+            	formSchema={this.state.formSchema.schema}
+                saveCount={this.state.saveCount}/>
 
             <hr size="1"/>
 
         	<EntityTypeForm 
         		namespace={namespace} 
             	entityTypeName={entityTypeName} 
-            	formSchema={this.state.formSchema}/>
+            	formSchema={this.state.formSchema}
+                handleEntitySaved={e => this.incSaveCount()}
+            />
         </div>
       </div>
     )

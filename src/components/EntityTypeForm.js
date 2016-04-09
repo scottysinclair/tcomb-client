@@ -45,6 +45,7 @@ export default React.createClass({
 
   save: function() {
 	console.log("save");  
+	const that = this;
 	const props = this.props;
     let value = this.refs.form.getValue();
     if (value != null) {
@@ -55,6 +56,9 @@ export default React.createClass({
 			    'Content-Type': 'application/json'
 			  },
 			body: JSON.stringify(value)
+		   })
+		   .then(function(response){
+			   that.props.handleEntitySaved(value);
 		   });
     }
   },

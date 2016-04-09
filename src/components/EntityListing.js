@@ -11,8 +11,15 @@ export default React.createClass({
   },
 	  
   componentDidMount: function() {
+	  this.loadEntities(this.props);
+  },
+  
+  componentWillReceiveProps: function(props) {
+	  this.loadEntities(props);
+  },
+  
+  loadEntities: function(props) {
 	  const that = this;
-	  const props = this.props;
 	  if (props.entityTypeName != null) {
 		  fetch('/barleyrs/entities/' + props.namespace + '/' + props.entityTypeName)
 		  .then(function(response) {
@@ -22,18 +29,20 @@ export default React.createClass({
 		  });
 	  }
   },
-	
   
-  componentWillReceiveProps: function(props) {
+  deleteEntity: function(entry) {
 	  const that = this;
-	  if (props.entityTypeName != null) {
-		  fetch('/barleyrs/entities/' + props.namespace + '/' + props.entityTypeName)
-		  .then(function(response) {
-		    return response.json()
-		  }).then(function(json) {
-		  	that.setState({ entities: json })
-		  });
-	  }
+   	  fetch('/barleyrs/entities/' + this.props.namespace + "/" + this.props.entityTypeName, {
+			method: 'delete',
+			headers: {
+			    'Accept': 'application/json',
+			    'Content-Type': 'application/json'
+			  },
+			body: JSON.stringify( entry )
+		   })
+		   .then(function(response){
+			   that.loadEntities(that.props);
+		   });
   },
 			
   render: function() {
@@ -49,6 +58,7 @@ export default React.createClass({
 		        	{Object.keys(that.props.formSchema.properties).map(prop =>
 		        	  <th>{prop}</th>
 		        	)}
+		        	<th>Delete</th>
 			     </tr>
 		        </thead>
 		        <tbody>
@@ -57,6 +67,7 @@ export default React.createClass({
 		        	{Object.keys(that.props.formSchema.properties).map(prop =>
 		        	  <td>{entry[prop]}</td>
 		        	)}
+		        	<td><a onClick={e => that.deleteEntity(entry) }>Delete</a></td>
 		        	</tr>
 		        )}
 		        </tbody>
