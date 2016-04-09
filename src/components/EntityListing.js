@@ -21,7 +21,7 @@ export default React.createClass({
   loadEntities: function(props) {
 	  const that = this;
 	  if (props.entityTypeName != null) {
-		  fetch('/barleyrs/entities/' + props.namespace + '/' + props.entityTypeName)
+		  fetch('/barleyrs/tables/' + props.namespace + '/' + props.entityTypeName)
 		  .then(function(response) {
 		    return response.json()
 		  }).then(function(json) {
@@ -58,16 +58,16 @@ export default React.createClass({
 		        	{Object.keys(that.props.formSchema.properties).map(prop =>
 		        	  <th>{prop}</th>
 		        	)}
-		        	<th>Delete</th>
+		        	<th width="20px">Delete</th>
 			     </tr>
 		        </thead>
 		        <tbody>
 		        {that.state.entities.map(entry =>
 		        	<tr key={'eltr-' + (row++)}>
 		        	{Object.keys(that.props.formSchema.properties).map(prop =>
-		        	  <td>{entry[prop]}</td>
+		        	  <td>{ ( typeof entry[prop] === 'object') ? entry[prop].name  : entry[prop] }</td>
 		        	)}
-		        	<td><a onClick={e => that.deleteEntity(entry) }>Delete</a></td>
+		        	<td><span className="glyphicon glyphicon-trash" aria-hidden="true" onClick={e => that.deleteEntity(entry)}></span></td>
 		        	</tr>
 		        )}
 		        </tbody>
