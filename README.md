@@ -1,4 +1,4 @@
-# Tcomb-client
+# tcomb-client
 
 A react webclient which can perform full CRUD operations against a [BarleyRS](https://github.com/scottysinclair/barleyrs) server. 
 The HTML forms are generated on the fly using JSON SCHEMA and [tcomb-form](https://github.com/gcanti/tcomb-form).
