@@ -65,7 +65,7 @@ export default React.createClass({
 		        {that.state.entities.map(entry =>
 		        	<tr key={'eltr-' + (row++)}>
 		        	{Object.keys(that.props.formSchema.properties).map(prop =>
-		        	  <td>{ ( typeof entry[prop] === 'object') ? entry[prop].name  : entry[prop] }</td>
+		        	  <td>{ (entry[prop] != null && (typeof entry[prop] === 'object')) ? entry[prop].name  : entry[prop] }</td>
 		        	)}
 		        	<td><span className="glyphicon glyphicon-trash" aria-hidden="true" onClick={e => that.deleteEntity(entry)}></span></td>
 		        	</tr>
