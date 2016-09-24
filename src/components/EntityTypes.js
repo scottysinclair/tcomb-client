@@ -17,15 +17,35 @@ export default React.createClass({
     	   },
 		   "options": {}
     	  },
-      saveCount: 0
+      saveCount: 0,
+      formData: null
     };
+  },
+  
+  setEntityTypesAndFormSchema: function(entityTypes, formSchema) {
+	    this.setState({
+	    	entityTypes: entityTypes,
+	        formSchema : formSchema,
+	        saveCount: this.state.saveCount+1,
+	        formData: this.state.formData
+	      });
   },
   
   incSaveCount: function() {
 	    this.setState({
 	    	entityTypes: this.state.entityTypes,
 	        formSchema : this.state.formSchema,
-	        saveCount: this.state.saveCount+1
+	        saveCount: this.state.saveCount+1,
+	        formData: this.state.formData
+	      });
+  },
+  
+  setSelectedEntity: function(entity) {
+	    this.setState({
+	    	entityTypes: this.state.entityTypes,
+	        formSchema : this.state.formSchema,
+	        saveCount: this.state.saveCount+1,
+	        formData: entity
 	      });
   },
 	
@@ -45,19 +65,13 @@ export default React.createClass({
 	  	if (entityTypes.length > 0) {
 	  		that.getJSONSchema(entityTypes[0].namespace, entityTypes[0].fqn)
 	  		.then(function(formSchema) {
-	  			that.setState({ 
-	  				entityTypes: entityTypes,
-	  				formSchema: formSchema
-  				});
+	  			that.setEntityTypesAndFormSchema(entityTypes, formSchema);
 	  		})
 	  		.catch(err => {
 	  			/*
 	  			 * when getting the form schema fail
 	  			 */
-	  			that.setState({
-	  				entityTypes: entityTypes,
-	  				formSchema: []
-	  			});
+	  			that.setEntityTypesAndFormSchema(entityTypes, []);
 	  		});
 	  	}
 	  	
@@ -84,10 +98,7 @@ export default React.createClass({
 	  if (props.params != null && props.params.namespace != null && props.params.entityTypeName != null) {
 		  that.getJSONSchema(props.params.namespace, props.params.entityTypeName)
 		  .then(function(formSchema){
-	  			that.setState({
-	  				entityTypes: that.state.entityTypes,
-	  				formSchema: formSchema
-	  			});
+	  			that.setEntityTypesAndFormSchema(that.state.entityTypes, formSchema);
 		  })
 	  }
   },  
@@ -133,7 +144,8 @@ export default React.createClass({
             	namespace={namespace} 
             	entityTypeName={entityTypeName} 
             	formSchema={this.state.formSchema.schema}
-                saveCount={this.state.saveCount}/>
+                saveCount={this.state.saveCount}
+            	entitySelected={e => this.setSelectedEntity(e)}/>
 
             <hr size="1"/>
 
@@ -141,6 +153,7 @@ export default React.createClass({
         		namespace={namespace} 
             	entityTypeName={entityTypeName} 
             	formSchema={this.state.formSchema}
+                formData={this.state.formData}
                 handleEntitySaved={e => this.incSaveCount()}
             />
         </div>

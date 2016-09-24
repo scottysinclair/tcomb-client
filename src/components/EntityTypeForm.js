@@ -61,6 +61,9 @@ export default React.createClass({
 			   that.props.handleEntitySaved(value);
 		   });
     }
+    else {
+    	console.log(this.refs.form.validate());
+    }
   },
 
   render: function() {
@@ -71,6 +74,7 @@ export default React.createClass({
 	    	<Form ref="form" 
 	  		  type={this.state.formSchema}
 	    	  options={this.state.options}
+	    	  value={this.props.formData}
 	  		  onChange={this.onChange} />
 	  		<button onClick={this.save}>Save</button>
 	  	</div>
