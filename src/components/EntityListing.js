@@ -86,6 +86,10 @@ export default React.createClass({
 	const that = this;
 	let row = 0;
 	
+	const extraRowStyle = {
+		cursor: 'pointer'	
+	};
+	
     return (
       <div className="panel panel-default">
       		<div className="panel-heading">Data</div>
@@ -101,7 +105,7 @@ export default React.createClass({
 		        </thead>
 		        <tbody>
 		        {that.state.entities.map(entry =>
-		        	<tr key={'eltr-' + (row++)} className={ that.getSelectedRowClass(entry) }>
+		        	<tr key={'eltr-' + (row++)} className={ that.getSelectedRowClass(entry) } style={extraRowStyle}>
 		        	{Object.keys(that.props.formSchema.properties).map(prop =>
 		        	  <td onClick={e => that.rowSelected(entry)}>{ (entry[prop] != null && (typeof entry[prop] === 'object')) ? entry[prop].name  : entry[prop] }</td>
 		        	)}
