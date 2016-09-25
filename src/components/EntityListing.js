@@ -17,7 +17,12 @@ export default React.createClass({
   
   componentWillReceiveProps: function(newprops) {
 	  if (newprops.entityTypeName !== this.props.entityTypeName) {
+//		  console.log("TYPE CHANGED");
 		  this.loadEntities(newprops);
+	  }
+	  else if (newprops.saveCount !== this.props.saveCount) {
+//		  console.log("SAVE COUNT CHANGED: " + newprops.saveCount + " : " + this.props.saveCount);
+		  this.loadEntities(newprops);		  
 	  }
   },
   
@@ -66,7 +71,7 @@ export default React.createClass({
 	  var obj = {};
 	  {Object.getOwnPropertyNames( entity ).map(prop => {
 			  if (typeof entity[prop] === "object" && entity[prop] !== null) {			  
-				  obj[prop] = '' + entity[prop]['id'];
+				  obj[prop] = entity[prop]['id'];
 			  }
 			  else {
 				  obj[prop] = entity[prop];

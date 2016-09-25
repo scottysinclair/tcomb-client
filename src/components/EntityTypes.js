@@ -26,17 +26,17 @@ export default React.createClass({
 	    this.setState({
 	    	entityTypes: entityTypes,
 	        formSchema : formSchema,
-	        saveCount: this.state.saveCount+1,
+	        saveCount: this.state.saveCount,
 	        formData: this.state.formData
 	      });
   },
   
-  incSaveCount: function() {
+  incSaveCount: function(entity) {
 	    this.setState({
 	    	entityTypes: this.state.entityTypes,
 	        formSchema : this.state.formSchema,
 	        saveCount: this.state.saveCount+1,
-	        formData: this.state.formData
+	        formData: entity
 	      });
   },
   
@@ -44,7 +44,7 @@ export default React.createClass({
 	    this.setState({
 	    	entityTypes: this.state.entityTypes,
 	        formSchema : this.state.formSchema,
-	        saveCount: this.state.saveCount+1,
+	        saveCount: this.state.saveCount,
 	        formData: entity
 	      });
   },
@@ -154,7 +154,7 @@ export default React.createClass({
             	entityTypeName={entityTypeName} 
             	formSchema={this.state.formSchema}
                 formData={this.state.formData}
-                handleEntitySaved={e => this.incSaveCount()}
+                handleEntitySaved={e => this.incSaveCount(e)}
             />
         </div>
       </div>
