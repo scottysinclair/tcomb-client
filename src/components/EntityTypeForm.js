@@ -12,10 +12,9 @@ import Autosuggest from 'react-autosuggest'
 
 
 
-var departments = [];
-
- function getSuggestions(value) {
-	fetch('/barleyrs/entities/scott.playspec/scott.playspec.model.Department?proj=id,name', {
+ function getSuggestions(value, url) {
+	var departments = [];	 
+	fetch(url, {
 		method: 'get',
 		headers: {
 		    'Accept': 'application/json',
@@ -53,7 +52,8 @@ var departments = [];
          locals.onChange(newValue)
        }
      }
-     const suggestions = options.getSuggestions(value)
+     const suggestions = options.getSuggestions(value, options.fetchUrl);
+     console.log("SUGGESTIONS", suggestions);
      return (
        <Autosuggest
          suggestions={suggestions}
@@ -72,15 +72,26 @@ var departments = [];
    language: t.String
  })
 
+ 
  const options = {
    fields: {
      department: {
        template: getTemplate({
          getSuggestions,
          getSuggestionValue,
-         renderSuggestion
+         renderSuggestion,
+         fetchUrl: '/barleyrs/entities/scott.playspec/scott.playspec.model.Department?proj=id,name'         
        })
-     }
+     },
+     countryOfOrigin: {
+         template: getTemplate({
+           getSuggestions,
+           getSuggestionValue,
+           renderSuggestion,
+           fetchUrl: '/barleyrs/entities/scott.playspec/scott.playspec.model.Country?proj=id,name'         
+         })
+       },
+     
    }
  }
 
@@ -88,7 +99,45 @@ var departments = [];
 
 
 
-
+function transformOptions(options) {
+	 
+	 if (options.fields === undefined || options.fields === null) {
+		 return options;
+	 }
+	 var newOptions = { fields: {}};
+//	 console.log(Object.keys( options.fields ));
+	 for (var fieldName of Object.keys( options.fields )) {
+/*		 console.log("KEY");
+		 console.log(key);
+		 console.log("KEYVALUE");
+		 console.log(options.fields[key]);
+		 */
+		 var field = options.fields[ fieldName ];
+//		 console.log(field);
+//		 console.log(field["autosuggest"]);
+		if (field.autosuggest != null) {
+//			console.log(":::"  + field.autosuggest.namespace + "/" + field.autosuggest.entitytype);
+			/*
+			 * define the autosuggest option for tcomb
+			 */
+			var url = '/barleyrs/entities/' + field.autosuggest.namespace + '/' + field.autosuggest.entitytype + '?proj=id,name';
+			newOptions.fields[ fieldName ] = {
+		       template: getTemplate({
+		           getSuggestions,
+		           getSuggestionValue,
+		           renderSuggestion,
+		           fetchUrl: url         
+		         })
+			};
+	         console.log(fieldName + ": " + url);
+		}
+		else {
+			newOptions.fields[ fieldName ] = field;
+		}
+	 } 
+	 console.log(newOptions);
+	 return newOptions;
+ }
 
 
 
@@ -111,9 +160,10 @@ export default React.createClass({
   componentDidMount: function() {
 	  if (this.props.formSchema != null) {
 	  	const transformed = transform( this.props.formSchema.schema );
+	  	const transformedOptions = transformOptions( this.props.formSchema.options );
 	  	this.setState({ 
 	  		formSchema: transformed,
-	  		options: this.props.formSchema.options
+	  		options: transformedOptions
 	  	})
 	  }
   },
@@ -121,9 +171,10 @@ export default React.createClass({
   componentWillReceiveProps: function(props) {
 	  if (props.formSchema != null) {
 	  	const transformed = transform( props.formSchema.schema );
+	  	const transformedOptions = transformOptions( this.props.formSchema.options );
 	  	this.setState({ 
 	  		formSchema: transformed,
-	  		options: props.formSchema.options
+	  		options: transformedOptions
 	  	})
 	  }
   },
@@ -162,7 +213,7 @@ export default React.createClass({
         <div className="panel-body">
 	    	<Form ref="form" 
 	  		  type={this.state.formSchema}
-	    	  options={options}
+	    	  options={this.state.options}
 	    	  value={this.props.formData}
 	  		  onChange={this.onChange} />
 	  		<button onClick={this.save}>Save</button>

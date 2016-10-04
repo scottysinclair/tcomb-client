@@ -83,10 +83,12 @@ export default React.createClass({
 	   */
   },
   
+  /**
+   * returns a promise
+   */
   getJSONSchema: function(namespace, entityTypeName) {
-	  return fetch('/barleyrs/entitytypes/' + namespace + '/' + entityTypeName)
+	  return fetch('/barleyrs/entitytypes/' + namespace + '/' + entityTypeName + "?options=true")
 	  .then(function(response) {
-
 		  console.log("ET -> GJS");
 		  return response.json()
 	  });
