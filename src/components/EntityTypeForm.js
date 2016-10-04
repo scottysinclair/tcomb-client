@@ -8,26 +8,9 @@ import Autosuggest from 'react-autosuggest'
 
 
 
-http://localhost:8000/barleyrs/entities/scott.playspec/scott.playspec.model.Employee?proj=id,name
+//http://localhost:8000/barleyrs/entities/scott.playspec/scott.playspec.model.Employee?proj=id,name
 
-const languages = [
-   {
-     name: 'C',
-     year: 1972
-   },
-   {
-     name: 'Elm',
-     year: 2012
-   },
-   {
-     name: 'Javascript',
-     year: 1995
-   },
-   {
-     name: 'Python',
-     year: 1991
-   }
- ]
+
 
 var departments = [];
 
@@ -92,9 +75,6 @@ var departments = [];
  const options = {
    fields: {
      department: {
-       attrs: {
-         placeholder: 'Type C'
-       },
        template: getTemplate({
          getSuggestions,
          getSuggestionValue,
