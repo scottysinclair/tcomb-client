@@ -12,9 +12,9 @@ import Autosuggest from 'react-autosuggest'
 
 
 
- function getSuggestions(value, url) {
+ function getSuggestions(value, allValues) {
 	var departments = [];	 
-	fetch(url, {
+/*	fetch(url, {
 		method: 'get',
 		headers: {
 		    'Accept': 'application/json',
@@ -29,6 +29,8 @@ import Autosuggest from 'react-autosuggest'
 	return departments.filter(dep => dep.name.indexOf(value) === 0)
 	
  //  return languages.filter(language => language.name.indexOf(value) === 0)
+ */
+	return allValues.filter( v => v.indexOf( value ) === 0);
  }
 
  function getSuggestionValue(suggestion) {
@@ -52,11 +54,28 @@ import Autosuggest from 'react-autosuggest'
          locals.onChange(newValue)
        }
      }
-     const suggestions = options.getSuggestions(value, options.fetchUrl);
-     console.log("SUGGESTIONS", suggestions);
+     const _onSuggestionsFetchRequested = function() {
+      fetch(options.fetchUrl, {
+ 		method: 'get',
+ 		headers: {
+ 		    'Accept': 'application/json',
+ 		    'Content-Type': 'application/json'
+ 		  }
+ 	   })
+ 	   .then(function(response) {
+ 		    return response.json()
+ 		  }).then(function(json) {
+ 			  options.suggestions = json;
+ 		  });	    
+     }; 
+     if (options.suggestions === undefined || options.suggestions == null) {
+     	options.suggestions = [];
+     }
      return (
        <Autosuggest
-         suggestions={suggestions}
+         suggestions={options.suggestions}
+         onSuggestionsFetchRequested={_onSuggestionsFetchRequested}
+       
          getSuggestionValue={options.getSuggestionValue}
          renderSuggestion={options.renderSuggestion}
          inputProps={inputProps}
