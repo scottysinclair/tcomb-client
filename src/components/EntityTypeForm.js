@@ -179,10 +179,10 @@ export default React.createClass({
   componentDidMount: function() {
 	  if (this.props.formSchema != null) {
 	  	const transformed = transform( this.props.formSchema.schema );
-	  	const transformedOptions = transformOptions( this.props.formSchema.options );
+	  	//const transformedOptions = transformOptions( this.props.formSchema.options );
 	  	this.setState({ 
 	  		formSchema: transformed,
-	  		options: transformedOptions
+	  		options: this.props.formSchema.options
 	  	})
 	  }
   },
@@ -190,10 +190,10 @@ export default React.createClass({
   componentWillReceiveProps: function(props) {
 	  if (props.formSchema != null) {
 	  	const transformed = transform( props.formSchema.schema );
-	  	const transformedOptions = transformOptions( this.props.formSchema.options );
+	  //	const transformedOptions = transformOptions( this.props.formSchema.options );
 	  	this.setState({ 
 	  		formSchema: transformed,
-	  		options: transformedOptions
+	  		options: this.props.formSchema.options
 	  	})
 	  }
   },
