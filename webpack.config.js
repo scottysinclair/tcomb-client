@@ -24,6 +24,7 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
+    port: 8000,
     proxy: {
   	  '/barleyrs/*' : {
   		  target: 'http://localhost:8080',
